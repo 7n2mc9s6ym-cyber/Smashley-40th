@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smashley's 40th - Bubbles & Bumps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f1ed;
+            padding: 15px;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #faf8f5;
+            border: 3px solid #1a1a1a;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a1a1a;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .champagne-emoji {
+            font-size: 40px;
+            margin: 0 15px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+
+        .theme-line {
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .bubble {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border: 1px solid #1a1a1a;
+            border-radius: 50%;
+            margin: 0 8px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .left-column {
+            border-right: 2px dashed #1a1a1a;
+            padding-right: 30px;
+        }
+
+        .day-section {
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .day-header {
+            background-color: #1a1a1a;
+            color: #faf8f5;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .day-content {
+            padding-left: 20px;
+            border-left: 3px solid #1a1a1a;
+        }
+
+        .activity {
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .activity-time {
+            font-weight: bold;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .activity-desc {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .info-box {
+            background-color: #faf8f5;
+            border: 2px solid #1a1a1a;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .info-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .icon {
+            font-size: 22px;
+            margin-right: 8px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            font-size: 18px;
+            letter-spacing: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            border-top: 3px solid #1a1a1a;
+            padding-top: 25px;
+            font-size: 16px;
+            font-style: italic;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .arrival-note {
+            background-color: #fff9e6;
+            border: 2px solid #d4af37;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .arrival-note strong {
+            color: #d4af37;
+            font-size: 14px;
+        }
+
+        .restaurant-highlight {
+            background-color: #fff0f5;
+            padding: 8px 12px;
+            border-left: 3px solid #d4af37;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        /* Snowflake Animation */
+        @keyframes fall {
+            0% {
+                top: -10px;
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(30px); }
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #1a1a1a;
+            font-size: 20px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite, sway ease-in-out infinite;
+        }
+
+        .snowflake:nth-child(1) { left: 10%; animation-duration: 8s, 3s; }
+        .snowflake:nth-child(2) { left: 20%; animation-duration: 10s, 4s; animation-delay: 1s; }
+        .snowflake:nth-child(3) { left: 30%; animation-duration: 12s, 5s; animation-delay: 2s; }
+        .snowflake:nth-child(4) { left: 40%; animation-duration: 9s, 3.5s; animation-delay: 0.5s; }
+        .snowflake:nth-child(5) { left: 50%; animation-duration: 11s, 4.5s; animation-delay: 1.5s; }
+        .snowflake:nth-child(6) { left: 60%; animation-duration: 10s, 4s; animation-delay: 2.5s; }
+        .snowflake:nth-child(7) { left: 70%; animation-duration: 12s, 5s; animation-delay: 1s; }
+        .snowflake:nth-child(8) { left: 80%; animation-duration: 9s, 3.5s; animation-delay: 3s; }
+        .snowflake:nth-child(9) { left: 90%; animation-duration: 11s, 4.5s; animation-delay: 0.5s; }
+
+        /* Champagne Bubble Animation */
+        @keyframes float {
+            0% {
+                bottom: -20px;
+                opacity: 1;
+            }
+            100% {
+                bottom: 120px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(20px); }
+        }
+
+        .bubble-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .champagne-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.7), rgba(212, 175, 55, 0.25));
+            border: 3px solid rgba(212, 175, 55, 0.6);
+            pointer-events: none;
+            animation: float linear infinite, drift ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6), inset -2px -2px 5px rgba(0,0,0,0.1);
+        }
+
+        .bubble1 { width: 24px; height: 24px; left: 5%; animation-duration: 4s, 2s; animation-delay: 0s; }
+        .bubble2 { width: 18px; height: 18px; left: 15%; animation-duration: 5s, 3s; animation-delay: 0.5s; }
+        .bubble3 { width: 28px; height: 28px; left: 25%; animation-duration: 4.5s, 2.5s; animation-delay: 1s; }
+        .bubble4 { width: 20px; height: 20px; left: 35%; animation-duration: 5.5s, 3s; animation-delay: 0.3s; }
+        .bubble5 { width: 26px; height: 26px; left: 50%; animation-duration: 4.2s, 2.2s; animation-delay: 0.8s; }
+        .bubble6 { width: 18px; height: 18px; left: 65%; animation-duration: 5.2s, 2.8s; animation-delay: 1.2s; }
+        .bubble7 { width: 24px; height: 24px; left: 80%; animation-duration: 4.8s, 2.5s; animation-delay: 0.4s; }
+        .bubble8 { width: 22px; height: 22px; left: 90%; animation-duration: 5.5s, 3s; animation-delay: 1.5s; }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .left-column {
+                border-right: none;
+                border-bottom: 2px dashed #1a1a1a;
+                padding-right: 0;
+                padding-bottom: 30px;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .container {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .day-header {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .activity-time {
+                font-size: 12px;
+            }
+
+            .activity-desc, .restaurant-highlight {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 40px;
+            }
+
+            .container {
+                padding: 15px 12px;
+            }
+
+            .info-box {
+                padding: 15px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Champagne Bubbles Floating at Top -->
+    <div class="bubble-container">
+        <div class="champagne-bubble bubble1"></div>
+        <div class="champagne-bubble bubble2"></div>
+        <div class="champagne-bubble bubble3"></div>
+        <div class="champagne-bubble bubble4"></div>
+        <div class="champagne-bubble bubble5"></div>
+        <div class="champagne-bubble bubble6"></div>
+        <div class="champagne-bubble bubble7"></div>
+        <div class="champagne-bubble bubble8"></div>
+    </div>
+
+    <!-- Falling Snowflakes (Bumps) -->
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div style="margin-bottom: 10px;">
+                <span class="champagne-emoji">🍾</span>
+                <span class="champagne-emoji">✨</span>
+                <span class="champagne-emoji">🍾</span>
+            </div>
+            <h1>SMASHLEY'S 40th</h1>
+            <div class="subtitle">CABO, MEXICO</div>
+            <div class="theme-line">
+                Bubbles & Bumps<br>
+                40 Years of One-of-a-Kind Magic
+            </div>
+        </div>
+
+        <!-- ARRIVAL NOTE -->
+        <div class="arrival-note">
+            <strong>✈️ VIP ARRIVALS:</strong> Chris & Ashley fly in Wednesday. The rest of the crew arrives Thursday morning. Let the celebration begin!
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="content">
+            <!-- LEFT COLUMN: ITINERARY -->
+            <div class="left-column">
+                <!-- WEDNESDAY -->
+                <div class="day-section">
+                    <div class="day-header">WEDNESDAY, JULY 23rd</div>
+                    <div class="day-content">
+                        <div class="activity">
+                            <div class="activity-time">All Day: Arrivals</div>
+                            <div class="activity-desc">Chris & Ashley land in Cabo, settle into ME Cabo, chill day. Explore the property, get acclimated, grab casual dinner.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider">✦ ✦ ✦</div>
+
+                <!-- THURSDAY -->
+                <div class="day-section">
+                    <div class="day-header">THURSDAY, JULY 24th</div>
+                    <div class="day-content">
+                        <div class="activity">
+                            <div class="activity-time">Morning: Crew Arrives</div>
+                            <div class="activity-desc">Everyone else touches down. Meet at ME Cabo, settle in, grab lunch.</div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">8:15 PM: Birthday Dinner</div>
+                            <div class="restaurant-highlight">
+                                <strong>ILIOS GREEK ESTIATORIO</strong> — Reservation confirmed for 14. Mediterranean elegance, exceptional service, Greek classics with a Cabo twist. This is the main celebration. 🥂
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">10:00 PM+: Mandala Nightclub</div>
+                            <div class="activity-desc">VIP bottle service table, international DJs, upscale atmosphere. We celebrate in style. Dancing, champagne, and the start of the Smashley weekend.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider">✦ ✦ ✦</div>
+
+                <!-- FRIDAY -->
+                <div class="day-section">
+                    <div class="day-header">FRIDAY, JULY 25th</div>
+                    <div class="day-content">
+                        <div class="activity">
+                            <div class="activity-time">11:00 AM - 4:00 PM: 80ft Private Boat</div>
+                            <div class="activity-desc">Open bar, chef-prepared food, ground transportation included. Deck space for 12. Sunscreen mandatory. Cost: $150/pp (Andy covering most). Pure ocean bliss.</div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">~4:30 PM: Back to Hotel</div>
+                            <div class="activity-desc">Shower, change, freshen up for night two.</div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">8:00 PM: Casual Dinner</div>
+                            <div class="restaurant-highlight">
+                                <strong>LA LUPITA TACO & MEZCAL</strong> — Gourmet tacos, legendary mezcal selection, steps from Medano Beach. Relaxed vibe, perfect dinner energy.
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">10:00 PM+: Smashley Side Quests Begin</div>
+                            <div class="activity-desc">Wherever Smashley's heart takes us. Cabo bars, dance floors, late-night discoveries—the night writes itself. 🍾</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider">✦ ✦ ✦</div>
+
+                <!-- SATURDAY -->
+                <div class="day-section">
+                    <div class="day-header">SATURDAY, JULY 26th</div>
+                    <div class="day-content">
+                        <div class="activity">
+                            <div class="activity-time">All Day: ME Cabo Pool Day</div>
+                            <div class="activity-desc">Day club vibes. Swim, relax, enjoy the sun and Sea of Cortez. DJ poolside. Lunch and drinks on the beach. This is where we recover and soak it all in.</div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">7:30 PM: Casual Dinner</div>
+                            <div class="restaurant-highlight">
+                                <strong>TABOO BEACH CLUB</strong> — Mediterranean cuisine, ocean views, champagne toasts, festive energy. Right at ME Cabo. Easy night, but still magical. 🥂
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">After Dinner: Smashley's Cabo Adventure</div>
+                            <div class="activity-desc">Bars, poolside lounging, late-night shenanigans—whatever Smashley wants. Keep the bubbles flowing wherever we roam. ✨</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider">✦ ✦ ✦</div>
+
+                <!-- SUNDAY -->
+                <div class="day-section">
+                    <div class="day-header">SUNDAY, JULY 27th</div>
+                    <div class="day-content">
+                        <div class="activity">
+                            <div class="activity-time">Morning: Check-Out & Depart</div>
+                            <div class="activity-desc">Sad goodbyes. Everyone heads to the airport. Until next time, Cabo.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: INFO & DETAILS -->
+            <div class="right-column">
+                <div class="info-box">
+                    <div class="info-title">👑 Ashley's VIP List - 6 Couples</div>
+                    <strong>Ashley & Chris</strong><br>
+                    <strong>Rafa & Andy</strong><br>
+                    <strong>Brandy & Matt</strong><br>
+                    <strong>Kristin & Wes</strong><br>
+                    <strong>Haley & James</strong><br>
+                    <strong>Monica & Gordy</strong><br><br>
+                    <em>12 people. 6 couples. One legendary weekend.</em>
+                </div>
+                <div class="info-box">
+                    <div class="info-title">🏨 Your Home Base</div>
+                    <strong>ME CABO - ADULTS ONLY</strong><br>
+                    El Medano Beach<br>
+                    Overlooking the iconic El Arco<br><br>
+                    <strong>On-Site Dining:</strong><br>
+                    • Taboo Beach Club (Mediterranean)<br>
+                    • Craft - Open Fire Kitchen<br>
+                    • Funky Geisha (Asian)<br>
+                    • Mamazzita (Mexican Soul)<br>
+                    • Confessions Skybar & Tapas
+                </div>
+
+                <div class="info-box">
+                    <div class="info-title">🍾 Bubbles & Bumps Theme</div>
+                    Thursday: Birthday Celebration Dinner<br><br>
+                    Friday: Boat + Casual Dinner + Mandala<br><br>
+                    Saturday: Pool Recovery + Dinner<br><br>
+                    <em>Champagne flows all three days.</em> 🥂
+                </div>
+
+                <div class="info-box">
+                    <div class="info-title">⛵ Friday Boat Details</div>
+                    • 80ft Private Vessel<br>
+                    • Open Bar & Chef<br>
+                    • Ground Transportation to/from Hotel<br>
+                    • Cost: $150/pp<br>
+                    • Andy Covering Majority<br><br>
+                    <strong>What to Bring:</strong> Sunscreen, swimwear, camera, good vibes
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            Here's to Smashley & 40 Years of Bubbles, Bumps & Unforgettable Memories! 🍾✨
+        </div>
+    </div>
+</body>
+</html>
