@@ -67,15 +67,6 @@
             line-height: 1.8;
         }
 
-        .bubble {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border: 1px solid #1a1a1a;
-            border-radius: 50%;
-            margin: 0 8px;
-        }
-
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -102,6 +93,14 @@
             letter-spacing: 2px;
             margin-bottom: 15px;
             border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-header:hover {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            transform: scale(1.02);
         }
 
         .day-content {
@@ -113,6 +112,15 @@
             margin-bottom: 15px;
             font-size: 14px;
             line-height: 1.6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .activity:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            padding-left: 12px;
         }
 
         .activity-time {
@@ -126,6 +134,14 @@
             margin-top: 5px;
             font-size: 14px;
             color: #333;
+        }
+
+        .rap-line {
+            font-style: italic;
+            color: #d4af37;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
         }
 
         .info-box {
@@ -144,11 +160,6 @@
             margin-bottom: 10px;
             letter-spacing: 1px;
             text-transform: uppercase;
-        }
-
-        .icon {
-            font-size: 22px;
-            margin-right: 8px;
         }
 
         .divider {
@@ -176,11 +187,6 @@
             border-radius: 8px;
             font-size: 13px;
             text-align: center;
-        }
-
-        .arrival-note strong {
-            color: #d4af37;
-            font-size: 14px;
         }
 
         .restaurant-highlight {
@@ -214,9 +220,35 @@
             color: #1a1a1a;
             font-size: 20px;
             opacity: 0.6;
-            pointer-events: none;
+            pointer-events: auto;
             z-index: 1;
             animation: fall linear infinite, sway ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .snowflake:hover {
+            transform: scale(1.3);
+            opacity: 1;
+        }
+
+        .snowflake.snorting {
+            animation: snortDisappear 0.5s ease-out forwards;
+        }
+
+        @keyframes snortDisappear {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.4) rotate(10deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0) rotate(-20deg);
+                opacity: 0;
+            }
         }
 
         .snowflake:nth-child(1) { left: 10%; animation-duration: 8s, 3s; }
@@ -229,7 +261,6 @@
         .snowflake:nth-child(8) { left: 80%; animation-duration: 9s, 3.5s; animation-delay: 3s; }
         .snowflake:nth-child(9) { left: 90%; animation-duration: 11s, 4.5s; animation-delay: 0.5s; }
 
-        /* Champagne Bubble Animation */
         @keyframes float {
             0% {
                 bottom: -20px;
@@ -252,8 +283,8 @@
             left: 0;
             width: 100%;
             height: 200px;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: auto;
+            z-index: 10;
             overflow: hidden;
         }
 
@@ -262,9 +293,35 @@
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.7), rgba(212, 175, 55, 0.25));
             border: 3px solid rgba(212, 175, 55, 0.6);
-            pointer-events: none;
+            pointer-events: auto;
             animation: float linear infinite, drift ease-in-out infinite;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.6), inset -2px -2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .champagne-bubble:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), inset -2px -2px 5px rgba(0,0,0,0.2);
+            transform: scale(1.1);
+        }
+
+        .champagne-bubble.popping {
+            animation: popBubble 0.6s ease-out forwards;
+        }
+
+        @keyframes popBubble {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
         }
 
         .bubble1 { width: 24px; height: 24px; left: 5%; animation-duration: 4s, 2s; animation-delay: 0s; }
@@ -275,6 +332,89 @@
         .bubble6 { width: 18px; height: 18px; left: 65%; animation-duration: 5.2s, 2.8s; animation-delay: 1.2s; }
         .bubble7 { width: 24px; height: 24px; left: 80%; animation-duration: 4.8s, 2.5s; animation-delay: 0.4s; }
         .bubble8 { width: 22px; height: 22px; left: 90%; animation-duration: 5.5s, 3s; animation-delay: 1.5s; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #faf8f5;
+            margin: 10% auto;
+            padding: 30px;
+            border: 3px solid #1a1a1a;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .close {
+            color: #1a1a1a;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #d4af37;
+        }
+
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #d4af37;
+            color: #1a1a1a;
+            border: 2px solid #1a1a1a;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            background-color: #1a1a1a;
+            color: #d4af37;
+            transform: scale(1.1);
+        }
 
         @media (max-width: 768px) {
             .content {
@@ -298,63 +438,53 @@
                 border-radius: 15px;
             }
 
-            .subtitle {
-                font-size: 18px;
-            }
-
-            .day-header {
-                font-size: 14px;
-                padding: 10px 15px;
-            }
-
-            .activity-time {
-                font-size: 12px;
-            }
-
-            .activity-desc, .restaurant-highlight {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 40px;
-            }
-
-            .container {
-                padding: 15px 12px;
-            }
-
-            .info-box {
-                padding: 15px;
-                font-size: 12px;
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Champagne Bubbles Floating at Top -->
+    <!-- Champagne Bubbles - Clickable -->
     <div class="bubble-container">
-        <div class="champagne-bubble bubble1"></div>
-        <div class="champagne-bubble bubble2"></div>
-        <div class="champagne-bubble bubble3"></div>
-        <div class="champagne-bubble bubble4"></div>
-        <div class="champagne-bubble bubble5"></div>
-        <div class="champagne-bubble bubble6"></div>
-        <div class="champagne-bubble bubble7"></div>
-        <div class="champagne-bubble bubble8"></div>
+        <div class="champagne-bubble bubble1" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble2" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble3" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble4" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble5" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble6" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble7" onclick="popBubble(event)"></div>
+        <div class="champagne-bubble bubble8" onclick="popBubble(event)"></div>
     </div>
 
-    <!-- Falling Snowflakes (Bumps) -->
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
+    <!-- Falling Snowflakes (Bumps) - Clickable! -->
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+    <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
+
+    <!-- Music Toggle Button -->
+    <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🎵 Play In Da Club</button>
+
+    <!-- Audio Element -->
+    <audio id="inDaClub" style="display:none;">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="Ashley">
+            <p id="modalCaption" style="margin-top: 15px; font-style: italic; color: #d4af37;"></p>
+        </div>
+    </div>
 
     <div class="container">
         <!-- HEADER -->
@@ -382,12 +512,13 @@
             <!-- LEFT COLUMN: ITINERARY -->
             <div class="left-column">
                 <!-- WEDNESDAY -->
-                <div class="day-section">
+                <div class="day-section" onclick="showModal('wednesday')">
                     <div class="day-header">WEDNESDAY, JULY 23rd</div>
                     <div class="day-content">
                         <div class="activity">
                             <div class="activity-time">All Day: Arrivals</div>
                             <div class="activity-desc">Chris & Ashley land in Cabo, settle into ME Cabo, chill day. Explore the property, get acclimated, grab casual dinner.</div>
+                            <div class="rap-line">✦ "Captain Save a Ho" — E-40 ✦</div>
                         </div>
                     </div>
                 </div>
@@ -395,7 +526,7 @@
                 <div class="divider">✦ ✦ ✦</div>
 
                 <!-- THURSDAY -->
-                <div class="day-section">
+                <div class="day-section" onclick="showModal('thursday')">
                     <div class="day-header">THURSDAY, JULY 24th</div>
                     <div class="day-content">
                         <div class="activity">
@@ -411,6 +542,7 @@
                         <div class="activity">
                             <div class="activity-time">10:00 PM+: Mandala Nightclub</div>
                             <div class="activity-desc">VIP bottle service table, international DJs, upscale atmosphere. We celebrate in style. Dancing, champagne, and the start of the Smashley weekend.</div>
+                            <div class="rap-line">✦ "Woo Hah! Got You All in Check" — Busta Rhymes ✦</div>
                         </div>
                     </div>
                 </div>
@@ -418,12 +550,13 @@
                 <div class="divider">✦ ✦ ✦</div>
 
                 <!-- FRIDAY -->
-                <div class="day-section">
+                <div class="day-section" onclick="showModal('friday')">
                     <div class="day-header">FRIDAY, JULY 25th</div>
                     <div class="day-content">
                         <div class="activity">
                             <div class="activity-time">11:00 AM - 4:00 PM: 80ft Private Boat</div>
                             <div class="activity-desc">Open bar, chef-prepared food, ground transportation included. Deck space for 12. Sunscreen mandatory. Cost: $150/pp (Andy covering most). Pure ocean bliss.</div>
+                            <div class="rap-line">✦ "Move Bitch, Get Out Da Way" — Ludacris ✦</div>
                         </div>
                         <div class="activity">
                             <div class="activity-time">~4:30 PM: Back to Hotel</div>
@@ -438,6 +571,7 @@
                         <div class="activity">
                             <div class="activity-time">10:00 PM+: Smashley Side Quests Begin</div>
                             <div class="activity-desc">Wherever Smashley's heart takes us. Cabo bars, dance floors, late-night discoveries—the night writes itself. 🍾</div>
+                            <div class="rap-line">✦ "Make Baby Girl Come Out of Her Shell" — Tech N9ne ✦</div>
                         </div>
                     </div>
                 </div>
@@ -445,7 +579,7 @@
                 <div class="divider">✦ ✦ ✦</div>
 
                 <!-- SATURDAY -->
-                <div class="day-section">
+                <div class="day-section" onclick="showModal('saturday')">
                     <div class="day-header">SATURDAY, JULY 26th</div>
                     <div class="day-content">
                         <div class="activity">
@@ -468,7 +602,7 @@
                 <div class="divider">✦ ✦ ✦</div>
 
                 <!-- SUNDAY -->
-                <div class="day-section">
+                <div class="day-section" onclick="showModal('sunday')">
                     <div class="day-header">SUNDAY, JULY 27th</div>
                     <div class="day-content">
                         <div class="activity">
@@ -507,7 +641,7 @@
                 <div class="info-box">
                     <div class="info-title">🍾 Bubbles & Bumps Theme</div>
                     Thursday: Birthday Celebration Dinner<br><br>
-                    Friday: Boat + Casual Dinner + Mandala<br><br>
+                    Friday: Boat + Casual Dinner + Side Quests<br><br>
                     Saturday: Pool Recovery + Dinner<br><br>
                     <em>Champagne flows all three days.</em> 🥂
                 </div>
@@ -521,12 +655,6 @@
                     • Andy Covering Majority<br><br>
                     <strong>What to Bring:</strong> Sunscreen, swimwear, camera, good vibes
                 </div>
-
-
-
-
-
-
             </div>
         </div>
 
@@ -535,5 +663,104 @@
             Here's to Smashley & 40 Years of Bubbles, Bumps & Unforgettable Memories! 🍾✨
         </div>
     </div>
+
+    <script>
+        // Snowflake Snort Functionality
+        function snortSnowflake(event) {
+            const snowflake = event.target;
+            snowflake.classList.add('snorting');
+            
+            // Play snort sound
+            playSnortSound();
+            
+            // Remove snowflake after animation
+            setTimeout(() => {
+                snowflake.style.display = 'none';
+            }, 500);
+        }
+
+        function playSnortSound() {
+            // Play real snort audio from GitHub Pages
+            const snortAudio = new Audio('https://7n2mc9s6ym-cyber.github.io/Smashley-40th/homemade_sfx-nose-snort-295400.mp3');
+            snortAudio.volume = 0.6;
+            snortAudio.play().catch(err => console.log('Audio play failed:', err));
+        }
+
+        // Bubble Pop Functionality
+        function popBubble(event) {
+            const bubble = event.target;
+            bubble.classList.add('popping');
+            
+            // Play pop sound
+            playPopSound();
+            
+            // Remove bubble after animation
+            setTimeout(() => {
+                bubble.style.display = 'none';
+            }, 600);
+        }
+
+        function playPopSound() {
+            // Play real champagne pop audio from GitHub Pages
+            const popAudio = new Audio('https://7n2mc9s6ym-cyber.github.io/Smashley-40th/universfield-wine-cork-pop-352701.mp3');
+            popAudio.volume = 0.7;
+            popAudio.play().catch(err => console.log('Audio play failed:', err));
+        }
+
+        // Music Toggle
+        function toggleMusic() {
+            const audio = document.getElementById('inDaClub');
+            const toggle = document.getElementById('musicToggle');
+            
+            if (audio.paused) {
+                audio.play();
+                toggle.textContent = '🎵 Vibing...';
+                toggle.style.background = '#1a1a1a';
+                toggle.style.color = '#d4af37';
+            } else {
+                audio.pause();
+                toggle.textContent = '🎵 Play In Da Club';
+                toggle.style.background = '#d4af37';
+                toggle.style.color = '#1a1a1a';
+            }
+        }
+
+        // Modal Functions
+        const imageGallery = {
+            wednesday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3ESmashley Arrives%3C/text%3E%3C/svg%3E',
+            thursday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EBirthday Celebration%3C/text%3E%3C/svg%3E',
+            friday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EBoat Day Vibes%3C/text%3E%3C/svg%3E',
+            saturday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EPool Day Magic%3C/text%3E%3C/svg%3E',
+            sunday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EUntil Next Time%3C/text%3E%3C/svg%3E'
+        };
+
+        function showModal(day) {
+            const modal = document.getElementById('imageModal');
+            const img = document.getElementById('modalImage');
+            const caption = document.getElementById('modalCaption');
+            
+            img.src = imageGallery[day];
+            caption.textContent = 'Click to view Smashley memories ✨';
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Initialize with low volume
+        window.addEventListener('load', function() {
+            const audio = document.getElementById('inDaClub');
+            audio.volume = 0.3;
+        });
+    </script>
 </body>
 </html>
