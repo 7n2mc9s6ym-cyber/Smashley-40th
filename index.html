@@ -45,7 +45,7 @@
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 900;
             letter-spacing: 0px;
             margin: 10px 0;
@@ -730,33 +730,21 @@
             }
         }
 
-        // Modal Functions - Multiple random photos per day
-        const imageGallery = {
-            wednesday: [
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4294.jpeg',
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png'
-            ],
-            thursday: [
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4293.jpeg',
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.23.11.png'
-            ],
-            friday: [
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4290.jpeg',
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png'
-            ],
-            saturday: [
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4285.jpeg',
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.23.11.png'
-            ],
-            sunday: [
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4286.jpeg',
-                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png'
-            ]
-        };
+        // Modal Functions - All photos available randomly for every day
+        const allPhotos = [
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4294.jpeg',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4293.jpeg',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4290.jpeg',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4285.jpeg',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4286.jpeg',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.23.11.png',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/8054333460​7_BF65A1B5-D321-4ED5-A535-23A00F160692.jpeg',
+            'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/8054331​1678_68E060EC-B588-4179-A3B3-0E90719218ED.jpeg'
+        ];
         
-        function getRandomPhoto(day) {
-            const photos = imageGallery[day];
-            return photos[Math.floor(Math.random() * photos.length)];
+        function getRandomPhoto() {
+            return allPhotos[Math.floor(Math.random() * allPhotos.length)];
         }
 
         function showModal(day) {
@@ -764,7 +752,7 @@
             const img = document.getElementById('modalImage');
             const caption = document.getElementById('modalCaption');
             
-            img.src = getRandomPhoto(day);
+            img.src = getRandomPhoto();
             caption.textContent = 'Click to view Smashley memories ✨';
             modal.style.display = 'block';
             
