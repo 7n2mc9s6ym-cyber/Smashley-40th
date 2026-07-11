@@ -759,20 +759,32 @@
             }
         }
 
-        // Initialize with autoplay
-        window.addEventListener('load', function() {
-            const audio = document.getElementById('inDaClub');
-            const toggle = document.getElementById('musicToggle');
-            audio.volume = 0.3;
-            audio.muted = false; // Unmute after page loads
-            audio.play().then(() => {
-                toggle.textContent = '🎵 Vibing...';
-                toggle.style.background = '#1a1a1a';
-                toggle.style.color = '#d4af37';
-            }).catch(err => {
-                console.log('Autoplay blocked by browser');
-            });
-        });
+        // Initialize music to play on first user interaction
+        let audioStarted = false;
+        
+        function startMusic() {
+            if (!audioStarted) {
+                const audio = document.getElementById('inDaClub');
+                const toggle = document.getElementById('musicToggle');
+                audio.volume = 0.3;
+                audio.muted = false;
+                audio.play().then(() => {
+                    toggle.textContent = '🎵 Vibing...';
+                    toggle.style.background = '#1a1a1a';
+                    toggle.style.color = '#d4af37';
+                    audioStarted = true;
+                }).catch(err => {
+                    console.log('Autoplay blocked:', err);
+                });
+                // Remove listener after first interaction
+                document.removeEventListener('click', startMusic);
+                document.removeEventListener('touchstart', startMusic);
+            }
+        }
+        
+        // Start music on first click or touch
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
     </script>
 </body>
 </html>
