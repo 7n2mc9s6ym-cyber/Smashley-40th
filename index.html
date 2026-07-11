@@ -470,10 +470,10 @@
     <div class="snowflake" onclick="snortSnowflake(event)">❄</div>
 
     <!-- Music Toggle Button -->
-    <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🎵 Play In Da Club</button>
+    <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🎵 Go Shawty, It's Your Birthday</button>
 
     <!-- Audio Element -->
-    <audio id="inDaClub" style="display:none;">
+    <audio id="inDaClub" style="display:none;" autoplay>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
@@ -585,6 +585,7 @@
                         <div class="activity">
                             <div class="activity-time">All Day: ME Cabo Pool Day</div>
                             <div class="activity-desc">Day club vibes. Swim, relax, enjoy the sun and Sea of Cortez. DJ poolside. Lunch and drinks on the beach. This is where we recover and soak it all in.</div>
+                            <div class="rap-line">✦ "Yeah!" — Usher feat. Lil Jon ✦</div>
                         </div>
                         <div class="activity">
                             <div class="activity-time">7:30 PM: Casual Dinner</div>
@@ -595,6 +596,7 @@
                         <div class="activity">
                             <div class="activity-time">After Dinner: Smashley's Cabo Adventure</div>
                             <div class="activity-desc">Bars, poolside lounging, late-night shenanigans—whatever Smashley wants. Keep the bubbles flowing wherever we roam. ✨</div>
+                            <div class="rap-line">✦ "Turn Down for What" — DJ Snake ✦</div>
                         </div>
                     </div>
                 </div>
@@ -608,6 +610,7 @@
                         <div class="activity">
                             <div class="activity-time">Morning: Check-Out & Depart</div>
                             <div class="activity-desc">Sad goodbyes. Everyone heads to the airport. Until next time, Cabo.</div>
+                            <div class="rap-line">✦ "Bye Bye Bye" — *NSYNC ✦</div>
                         </div>
                     </div>
                 </div>
@@ -719,7 +722,7 @@
                 toggle.style.color = '#d4af37';
             } else {
                 audio.pause();
-                toggle.textContent = '🎵 Play In Da Club';
+                toggle.textContent = '🎵 Go Shawty, It\'s Your Birthday';
                 toggle.style.background = '#d4af37';
                 toggle.style.color = '#1a1a1a';
             }
@@ -727,11 +730,11 @@
 
         // Modal Functions
         const imageGallery = {
-            wednesday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3ESmashley Arrives%3C/text%3E%3C/svg%3E',
-            thursday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EBirthday Celebration%3C/text%3E%3C/svg%3E',
-            friday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EBoat Day Vibes%3C/text%3E%3C/svg%3E',
-            saturday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EPool Day Magic%3C/text%3E%3C/svg%3E',
-            sunday: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23d4af37%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a1a1a%22%3EUntil Next Time%3C/text%3E%3C/svg%3E'
+            wednesday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4294.jpeg',
+            thursday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4293.jpeg',
+            friday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4290.jpeg',
+            saturday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4285.jpeg',
+            sunday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4286.jpeg'
         };
 
         function showModal(day) {
@@ -756,10 +759,18 @@
             }
         }
 
-        // Initialize with low volume
+        // Initialize with autoplay
         window.addEventListener('load', function() {
             const audio = document.getElementById('inDaClub');
+            const toggle = document.getElementById('musicToggle');
             audio.volume = 0.3;
+            audio.play().then(() => {
+                toggle.textContent = '🎵 Vibing...';
+                toggle.style.background = '#1a1a1a';
+                toggle.style.color = '#d4af37';
+            }).catch(err => {
+                console.log('Autoplay blocked by browser');
+            });
         });
     </script>
 </body>
