@@ -45,11 +45,13 @@
         }
 
         h1 {
-            font-size: 72px;
+            font-size: 38px;
             font-weight: 900;
-            letter-spacing: 3px;
+            letter-spacing: 0px;
             margin: 15px 0;
             font-style: italic;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .subtitle {
@@ -728,38 +730,49 @@
             }
         }
 
-        // Modal Functions
+        // Modal Functions - Multiple random photos per day
         const imageGallery = {
-            wednesday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4294.jpeg',
-            thursday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4293.jpeg',
-            friday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4290.jpeg',
-            saturday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4285.jpeg',
-            sunday: 'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4286.jpeg'
+            wednesday: [
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4294.jpeg',
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png'
+            ],
+            thursday: [
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4293.jpeg',
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.23.11.png'
+            ],
+            friday: [
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4290.jpeg',
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png'
+            ],
+            saturday: [
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4285.jpeg',
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.23.11.png'
+            ],
+            sunday: [
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/IMG_4286.jpeg',
+                'https://7n2mc9s6ym-cyber.github.io/Smashley-40th/Screenshot%202026-07-10%20at%2019.26.27.png'
+            ]
         };
+        
+        function getRandomPhoto(day) {
+            const photos = imageGallery[day];
+            return photos[Math.floor(Math.random() * photos.length)];
+        }
 
         function showModal(day) {
             const modal = document.getElementById('imageModal');
             const img = document.getElementById('modalImage');
             const caption = document.getElementById('modalCaption');
             
-            img.src = imageGallery[day];
+            img.src = getRandomPhoto(day);
             caption.textContent = 'Click to view Smashley memories ✨';
             modal.style.display = 'block';
+            
+            // Start music when clicking a day
+            startMusic();
         }
-
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        // Initialize music to play on first user interaction
+        
+        // Initialize music to play on day header clicks
         let audioStarted = false;
         
         function startMusic() {
@@ -776,15 +789,81 @@
                 }).catch(err => {
                     console.log('Autoplay blocked:', err);
                 });
-                // Remove listener after first interaction
-                document.removeEventListener('click', startMusic);
-                document.removeEventListener('touchstart', startMusic);
             }
         }
-        
-        // Start music on first click or touch
-        document.addEventListener('click', startMusic);
-        document.addEventListener('touchstart', startMusic);
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function playPopSound() {
+            // Create a champagne pop sound using Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            const osc1 = audioContext.createOscillator();
+            const gain1 = audioContext.createGain();
+            
+            osc1.connect(gain1);
+            gain1.connect(audioContext.destination);
+            
+            osc1.frequency.setValueAtTime(1200, audioContext.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.08);
+            
+            gain1.gain.setValueAtTime(0.5, audioContext.currentTime);
+            gain1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.08);
+            
+            osc1.start(audioContext.currentTime);
+            osc1.stop(audioContext.currentTime + 0.08);
+            
+            const noise = audioContext.createBufferSource();
+            const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.1, audioContext.sampleRate);
+            const noiseData = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < noiseBuffer.length; i++) {
+                noiseData[i] = Math.random() * 2 - 1;
+            }
+            noise.buffer = noiseBuffer;
+            
+            const noiseGain = audioContext.createGain();
+            const noiseFilter = audioContext.createBiquadFilter();
+            
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(audioContext.destination);
+            
+            noiseFilter.type = 'highpass';
+            noiseFilter.frequency.setValueAtTime(4000, audioContext.currentTime);
+            
+            noiseGain.gain.setValueAtTime(0.15, audioContext.currentTime);
+            noiseGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            noise.start(audioContext.currentTime);
+            noise.stop(audioContext.currentTime + 0.1);
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById('inDaClub');
+            const toggle = document.getElementById('musicToggle');
+            
+            if (audio.paused) {
+                audio.play();
+                toggle.textContent = '🎵 Vibing...';
+                toggle.style.background = '#1a1a1a';
+                toggle.style.color = '#d4af37';
+            } else {
+                audio.pause();
+                toggle.textContent = '🎵 Go Shawty, It\'s Your Birthday';
+                toggle.style.background = '#d4af37';
+                toggle.style.color = '#1a1a1a';
+            }
+        }
     </script>
 </body>
 </html>
