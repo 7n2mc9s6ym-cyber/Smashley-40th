@@ -45,13 +45,13 @@
         }
 
         h1 {
-            font-size: 38px;
+            font-size: 28px;
             font-weight: 900;
             letter-spacing: 0px;
-            margin: 15px 0;
+            margin: 10px 0;
             font-style: italic;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            white-space: nowrap;
+            overflow: visible;
         }
 
         .subtitle {
@@ -805,47 +805,10 @@
         }
 
         function playPopSound() {
-            // Create a champagne pop sound using Web Audio API
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            
-            const osc1 = audioContext.createOscillator();
-            const gain1 = audioContext.createGain();
-            
-            osc1.connect(gain1);
-            gain1.connect(audioContext.destination);
-            
-            osc1.frequency.setValueAtTime(1200, audioContext.currentTime);
-            osc1.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.08);
-            
-            gain1.gain.setValueAtTime(0.5, audioContext.currentTime);
-            gain1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.08);
-            
-            osc1.start(audioContext.currentTime);
-            osc1.stop(audioContext.currentTime + 0.08);
-            
-            const noise = audioContext.createBufferSource();
-            const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.1, audioContext.sampleRate);
-            const noiseData = noiseBuffer.getChannelData(0);
-            for (let i = 0; i < noiseBuffer.length; i++) {
-                noiseData[i] = Math.random() * 2 - 1;
-            }
-            noise.buffer = noiseBuffer;
-            
-            const noiseGain = audioContext.createGain();
-            const noiseFilter = audioContext.createBiquadFilter();
-            
-            noise.connect(noiseFilter);
-            noiseFilter.connect(noiseGain);
-            noiseGain.connect(audioContext.destination);
-            
-            noiseFilter.type = 'highpass';
-            noiseFilter.frequency.setValueAtTime(4000, audioContext.currentTime);
-            
-            noiseGain.gain.setValueAtTime(0.15, audioContext.currentTime);
-            noiseGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            
-            noise.start(audioContext.currentTime);
-            noise.stop(audioContext.currentTime + 0.1);
+            // Play real champagne pop audio from GitHub Pages
+            const popAudio = new Audio('https://7n2mc9s6ym-cyber.github.io/Smashley-40th/universfield-wine-cork-pop-352701.mp3');
+            popAudio.volume = 0.7;
+            popAudio.play().catch(err => console.log('Audio play failed:', err));
         }
 
         function toggleMusic() {
