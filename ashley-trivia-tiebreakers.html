@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smashley 40th Birthday Trivia - Tiebreakers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f1ed;
+            padding: 20px;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #faf8f5;
+            border: 3px solid #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #1a1a1a;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .score-tracker {
+            background-color: #d4af37;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background-color: #fff;
+            border: 2px solid #1a1a1a;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .option:hover:not(.disabled) {
+            background-color: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .option.correct {
+            background-color: #90EE90;
+            border-color: #228B22;
+            font-weight: bold;
+        }
+
+        .option.incorrect {
+            background-color: #FFB6C6;
+            border-color: #C41E3A;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct-feedback {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border: 2px solid #4CAF50;
+        }
+
+        .feedback.incorrect-feedback {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border: 2px solid #F44336;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #1a1a1a;
+            background-color: #d4af37;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #1a1a1a;
+            color: #d4af37;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .results-screen.show {
+            display: block;
+        }
+
+        .final-score {
+            font-size: 48px;
+            font-weight: 900;
+            color: #d4af37;
+            margin: 20px 0;
+        }
+
+        .results-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .option {
+                font-size: 13px;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="font-size: 32px; margin-bottom: 10px;">🍾 ✨ 🍾</div>
+            <h1>SMASHLEY'S 40th</h1>
+            <div class="subtitle">Trivia Tiebreakers</div>
+        </div>
+
+        <div class="score-tracker">
+            Score: <span id="score">0</span> / 3
+        </div>
+
+        <div id="trivia-content">
+            <div class="question-number" id="question-number">Question 1 of 3</div>
+            <div class="question-text" id="question-text"></div>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback"></div>
+            <div class="button-group">
+                <button id="next-btn" onclick="nextQuestion()" disabled>Next Question</button>
+            </div>
+        </div>
+
+        <div class="results-screen" id="results-screen">
+            <h2 style="font-size: 28px; margin-bottom: 20px;">🎉 Tiebreaker Complete! 🎉</h2>
+            <div class="final-score" id="final-score"></div>
+            <div class="results-message" id="results-message"></div>
+            <button onclick="location.reload()" style="margin-top: 20px;">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What other languages can Ashley say 'excuse me' in?",
+                options: ["German, Spanish, French", "German, Italian, French", "German, Spanish, Portuguese", "Spanish, French, Italian"],
+                correct: 0,
+                isImageQuestion: false
+            },
+            {
+                question: "What artist did Ashley want to see on Groove Cruise the first time?",
+                options: ["James Kennedy", "Diplo", "Calvin Harris", "Steve Aoki"],
+                correct: 0,
+                isImageQuestion: false
+            },
+            {
+                question: "When Ashley was on her honeymoon cruise, what did she say she always wanted to do?",
+                options: ["Go parasailing", "Sit in the window sill in the room", "Swim with dolphins", "Take a helicopter tour"],
+                correct: 1,
+                isImageQuestion: false
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-number').textContent = `Question ${currentQuestion + 1} of 3`;
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('div');
+                button.className = 'option';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index);
+                optionsDiv.appendChild(button);
+            });
+
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('next-btn').disabled = true;
+            answered = false;
+        }
+
+        function selectAnswer(index) {
+            if (answered) return;
+
+            const question = questions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            const nextBtn = document.getElementById('next-btn');
+            const feedback = document.getElementById('feedback');
+
+            answered = true;
+
+            options.forEach((opt, i) => {
+                opt.classList.add('disabled');
+                if (i === question.correct) {
+                    opt.classList.add('correct');
+                } else if (i === index) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (index === question.correct) {
+                score++;
+                document.getElementById('score').textContent = score;
+                feedback.textContent = '✓ Correct! Nice work!';
+                feedback.classList.add('correct-feedback');
+            } else {
+                feedback.textContent = `✗ Oops! The correct answer is: ${question.options[question.correct]}`;
+                feedback.classList.add('incorrect-feedback');
+            }
+
+            feedback.classList.add('show');
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('show', 'correct-feedback', 'incorrect-feedback');
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('trivia-content').style.display = 'none';
+            document.getElementById('results-screen').classList.add('show');
+
+            document.getElementById('final-score').textContent = `${score} / 3`;
+
+            let message = '';
+            if (score === 3) {
+                message = "Perfect tiebreaker! You're the ULTIMATE Smashley expert! 🍾✨";
+            } else if (score === 2) {
+                message = "Nice! You got the tiebreaker! 🎉";
+            } else if (score === 1) {
+                message = "You got one! Not bad for a tiebreaker! 🍾";
+            } else {
+                message = "Time to hang out with Smashley more! 💚";
+            }
+
+            document.getElementById('results-message').textContent = message;
+        }
+
+        // Load the first question when page loads
+        loadQuestion();
+    </script>
+</body>
+</html>
