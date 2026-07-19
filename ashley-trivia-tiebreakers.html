@@ -220,7 +220,7 @@
         </div>
 
         <div class="score-tracker">
-            Score: <span id="score">0</span> / 3
+            Score: <span id="score">0</span> / 4
         </div>
 
         <div id="trivia-content">
@@ -245,7 +245,7 @@
         const questions = [
             {
                 question: "What other languages can Ashley say 'excuse me' in?",
-                options: ["German, Spanish, French", "German, Italian, French", "German, Spanish, Portuguese", "Spanish, French, Italian"],
+                options: ["German, Italian, French", "German, Spanish, Portuguese", "Spanish, French, Italian", "German, Spanish, French"],
                 correct: 0,
                 isImageQuestion: false
             },
@@ -260,6 +260,14 @@
                 options: ["Go parasailing", "Sit in the window sill in the room", "Swim with dolphins", "Take a helicopter tour"],
                 correct: 1,
                 isImageQuestion: false
+            },
+            {
+                question: "What's Ashley's life motto?",
+                options: [],
+                correct: 0,
+                isImageQuestion: false,
+                isFreeForm: true,
+                answer: "can't be a pussy your whole life"
             }
         ];
 
@@ -269,23 +277,81 @@
 
         function loadQuestion() {
             const question = questions[currentQuestion];
-            document.getElementById('question-number').textContent = `Question ${currentQuestion + 1} of 3`;
+            document.getElementById('question-number').textContent = `Question ${currentQuestion + 1} of 4`;
             document.getElementById('question-text').textContent = question.question;
             
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = '';
 
-            question.options.forEach((option, index) => {
-                const button = document.createElement('div');
-                button.className = 'option';
-                button.textContent = option;
-                button.onclick = () => selectAnswer(index);
-                optionsDiv.appendChild(button);
-            });
+            if (question.isFreeForm) {
+                const inputContainer = document.createElement('div');
+                inputContainer.style.display = 'flex';
+                inputContainer.style.gap = '10px';
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = 'free-form-input';
+                input.placeholder = 'Type your answer here...';
+                input.style.flex = '1';
+                input.style.padding = '12px 15px';
+                input.style.border = '2px solid #1a1a1a';
+                input.style.borderRadius = '8px';
+                input.style.fontSize = '14px';
+                input.style.fontFamily = 'Georgia, serif';
+                
+                const submitBtn = document.createElement('button');
+                submitBtn.textContent = 'Submit';
+                submitBtn.style.width = 'auto';
+                submitBtn.style.padding = '12px 20px';
+                submitBtn.onclick = () => {
+                    const answer = document.getElementById('free-form-input').value.toLowerCase().trim();
+                    selectFreeFormAnswer(answer);
+                };
+                
+                inputContainer.appendChild(input);
+                inputContainer.appendChild(submitBtn);
+                optionsDiv.appendChild(inputContainer);
+            } else {
+                question.options.forEach((option, index) => {
+                    const button = document.createElement('div');
+                    button.className = 'option';
+                    button.textContent = option;
+                    button.onclick = () => selectAnswer(index);
+                    optionsDiv.appendChild(button);
+                });
+            }
 
             document.getElementById('feedback').classList.remove('show');
             document.getElementById('next-btn').disabled = true;
             answered = false;
+        }
+
+        function selectFreeFormAnswer(userAnswer) {
+            if (answered) return;
+
+            const question = questions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
+            const input = document.getElementById('free-form-input');
+
+            answered = true;
+            input.disabled = true;
+
+            const correctAnswer = question.answer.toLowerCase().trim();
+            const isCorrect = userAnswer === correctAnswer;
+
+            if (isCorrect) {
+                score++;
+                document.getElementById('score').textContent = score;
+                feedback.textContent = '✓ Correct! That\'s so Ashley! 😂';
+                feedback.classList.add('correct-feedback');
+            } else {
+                feedback.textContent = `✗ Oops! The answer is: "${question.answer}"`;
+                feedback.classList.add('incorrect-feedback');
+            }
+
+            feedback.classList.add('show');
+            nextBtn.disabled = false;
         }
 
         function selectAnswer(index) {
@@ -337,15 +403,17 @@
             document.getElementById('trivia-content').style.display = 'none';
             document.getElementById('results-screen').classList.add('show');
 
-            document.getElementById('final-score').textContent = `${score} / 3`;
+            document.getElementById('final-score').textContent = `${score} / 4`;
 
             let message = '';
-            if (score === 3) {
+            if (score === 4) {
                 message = "Perfect tiebreaker! You're the ULTIMATE Smashley expert! 🍾✨";
-            } else if (score === 2) {
+            } else if (score === 3) {
                 message = "Nice! You got the tiebreaker! 🎉";
+            } else if (score === 2) {
+                message = "You got a couple! Not bad for a tiebreaker! 🍾";
             } else if (score === 1) {
-                message = "You got one! Not bad for a tiebreaker! 🍾";
+                message = "You got one! Better luck next time! 🍾";
             } else {
                 message = "Time to hang out with Smashley more! 💚";
             }
